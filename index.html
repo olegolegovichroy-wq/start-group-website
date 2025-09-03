@@ -70,7 +70,8 @@
     .wrap{max-width:1160px;margin:auto;padding:0 20px}
     section{padding:36px 0;border-bottom:1px solid #1a2230}
     h2{margin-bottom:16px}
-    img.certificate,img.director{width:100%;max-width:920px;border-radius:12px;border:1px solid #1a2230;display:block;margin:auto}
+    img.director{width:100%;max-width:920px;border-radius:12px;border:1px solid #1a2230;display:block;margin:auto}
+    img.certificate{width:100%;max-width:460px;border-radius:12px;border:1px solid #1a2230;display:block;margin:auto}
     .center{text-align:center}
     .director-text{margin-top:12px;font-style:italic;text-align:center;color:#8da3bd}
     footer{padding:24px 0;text-align:center;color:#8da3bd}
@@ -89,6 +90,20 @@
     .recaptcha-disclaimer a{color:#4da3ff}
       .lang-switch button:focus-visible, .contact-form button:focus-visible, input:focus-visible, textarea:focus-visible{outline:2px solid #4da3ff; outline-offset:2px}
   </style>
+  <script>
+    // Ensure a language param is present on first load (and honor saved choice)
+    (function(){
+      try{
+        var params = new URLSearchParams(location.search);
+        var saved = localStorage.getItem('lang') || 'uk';
+        if(!params.get('lang')){
+          params.set('lang', saved);
+          var newUrl = location.pathname + '?' + params.toString() + location.hash;
+          history.replaceState(null, '', newUrl);
+        }
+      }catch(e){}
+    })();
+  </script>
 </head>
 <body>
   <header id="top">
@@ -104,25 +119,14 @@
     <section id="about">
       <div class="wrap">
         <h2 id="aboutTitle" data-i18n="aboutTitle">Про компанію</h2>
-        <p id="aboutP1">Start Group Limited — компанія, зареєстрована в Гонконзі. Заснована 14 березня 2016 року. Ми працюємо з високотехнологічними підприємствами у сферах авіабудування та суміжних індустрій, забезпечуючи прозорість процесів, контроль якості та мінімізацію ризиків. Пошук постачальників у Китаї, Індії та Південно-Східній Азії, аудит, QC/QA та логістика.</p>
+        <p id="aboutP1">Start Group Limited — гонконгська компанія, заснована 14 березня 2016 року. Працюємо з високотехнологічними підприємствами авіаційної галузі та суміжних секторів — від двигунобудування до машинобудування — забезпечуючи прозорість процесів, бездоганний контроль якості та мінімізацію виробничих і логістичних ризиків. Знаходимо постачальників у Китаї, Індії та країнах Південно‑Східної Азії, проводимо аудити виробництв, організовуємо QC/QA та супроводжуємо поставки.</p>
         <p id="aboutP2">З 2016 року ми забезпечуємо співпрацю та легку комунікацію між азійськими й європейськими компаніями у сферах авіабудування, двигунобудування та машинобудування. Ми — надійний, досвідчений партнер, на якого можна покластися.</p>
         <p><strong id="labelAddress">Адреса:</strong> Room 5003, 5/F Yau Lee Centre, 45 Hoi Yuen Road, Kwun Tong, Hong Kong</p>
         <p><strong id="labelCert">Номер сертифіката:</strong> 65917129-000-03-25-А</p>
         <p><strong id="labelEmail">Email:</strong> <a href="mailto:info@startgroup.space">info@startgroup.space</a></p>
         <p><strong id="labelPhone">Телефон:</strong> <a href="tel:+380951455328">+380951455328</a></p>
       </div>
-    </section>
-
-    <section id="certificate">
-      <div class="wrap center">
-        <h2 id="certTitle" data-i18n="certTitle">Сертифікат реєстрації компанії (Hong Kong)</h2>
-        <img class="certificate" src="start-group-certificate.jpg" alt="Certificate of Incorporation — Start Group Limited">
-        <p id="certLine1" class="director-text">Видано 24 березня 2016 • Номер сертифіката 65917129-000-03-25-А</p>
-        <p id="certLine2" class="director-text">Issued on 24 March 2016 • Certificate No. 65917129-000-03-25-A</p>
-      </div>
-    </section>
-
-    <section id="director">
+    </section><section id="director">
       <div class="wrap center">
         <h2 id="directorTitle" data-i18n="directorTitle">Звернення директора</h2>
         <picture>
@@ -131,6 +135,17 @@
         </picture>
         <p id="directorQuote" class="director-text">“Our strategy is to bring your ideas into reality.”</p>
         <p class="director-text"><strong>Oleg Roi</strong><br><span id="directorRole">Director, Start Group Limited</span></p>
+      </div>
+    </section>
+
+    
+
+    <section id="certificate">
+      <div class="wrap center">
+        <h2 id="certTitle" data-i18n="certTitle">Сертифікат реєстрації компанії (Hong Kong)</h2>
+        <img class="certificate" src="start-group-certificate.jpg" alt="Certificate of Incorporation — Start Group Limited">
+        <p id="certLine1" class="director-text">Видано 24 березня 2016 • Номер сертифіката 65917129-000-03-25-А</p>
+        <p id="certLine2" class="director-text">Issued on 24 March 2016 • Certificate No. 65917129-000-03-25-A</p>
       </div>
     </section>
 
@@ -201,8 +216,8 @@
   const I18N = {
     uk: {
       aboutTitle: 'Про компанію',
-      aboutP1: 'Start Group Limited — компанія, зареєстрована в Гонконзі. Заснована 14 березня 2016 року. Ми працюємо з високотехнологічними підприємствами у сферах авіабудування та суміжних індустрій, забезпечуючи прозорість процесів, контроль якості та мінімізацію ризиків. Пошук постачальників у Китаї, Індії та Південно-Східній Азії, аудит, QC/QA та логістика.',
-      aboutP2: 'З 2016 року ми забезпечуємо співпрацю та легку комунікацію між азійськими й європейськими компаніями у сферах авіабудування, двигунобудування та машинобудування. Ми — надійний, досвідчений партнер, на якого можна покластися.',
+      aboutP1: 'Start Group Limited — гонконгська компанія, заснована 14 березня 2016 року. Працюємо з високотехнологічними підприємствами авіаційної галузі та суміжних секторів — від двигунобудування до машинобудування — забезпечуючи прозорість процесів, бездоганний контроль якості та мінімізацію виробничих і логістичних ризиків. Знаходимо постачальників у Китаї, Індії та країнах Південно‑Східної Азії, проводимо аудити виробництв, організовуємо QC/QA та супроводжуємо поставки.',
+      aboutP2: 'Від 2016 року створюємо ефективні мости співпраці та зручну комунікацію між азійськими й європейськими компаніями в авіабудуванні, двигунобудуванні та машинобудуванні. Ми — надійний і досвідчений партнер, на якого можна впевнено покладатися.',
       addressLabel: 'Адреса:', certNoLabel: 'Номер сертифіката:', emailLabel: 'Email:', phoneLabel: 'Телефон:',
       certTitle: 'Сертифікат реєстрації компанії (Hong Kong)',
       certLine1: 'Видано 24 березня 2016 • Номер сертифіката 65917129-000-03-25-А',
