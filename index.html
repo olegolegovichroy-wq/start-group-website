@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"Start Group Limited","url":"https://startgroup.space/","logo":"https://startgroup.space/logo-combined.png","foundingDate":"2016-03-14","email":"info@startgroup.space","telephone":"+380951455328","address":{"@type":"PostalAddress","streetAddress":"Room 5003, 5/F Yau Lee Centre, 45 Hoi Yuen Road, Kwun Tong","addressLocality":"Hong Kong","addressCountry":"HK"},"areaServed":["Europe","China","India","Southeast Asia"],"founder":{"@type":"Person","name":"Oleg Roi"}}
+{"@context":"https://schema.org","@type":"Organization","name":"Start Group Limited","url":"https://startgroup.space/","logo":"https://startgroup.space/logo-combined.png","foundingDate":"2016-03-14","email":"info@startgroup.space","address":{"@type":"PostalAddress","streetAddress":"Room 5003, 5/F Yau Lee Centre, 45 Hoi Yuen Road, Kwun Tong","addressLocality":"Hong Kong","addressCountry":"HK"},"areaServed":["Europe","China","India","Southeast Asia"],"founder":{"@type":"Person","name":"Oleg Roi"}}
 </script>
 <style>
 /* Layout: left-aligned editorial column (max 1120px); hero splits headline / live clocks; services as a ruled 2-column list, process as a numbered rail. */
@@ -180,6 +180,8 @@ dialog button{background:var(--paper);border:0;border-radius:4px;padding:.4rem .
 .status.ok{color:#1F6B3A}.status.err{color:var(--seal)}
 .direct{border-top:1.5px solid var(--ink);padding-top:1.2rem;display:grid;gap:1.2rem}
 .direct .k{font-size:.9rem;color:var(--steel)}
+.direct a.wa{font-family:var(--font-body);font-size:1rem;word-break:normal}
+.direct a.wa:hover{text-decoration:none}
 .direct a{font-family:var(--font-display);font-size:1.35rem;text-decoration:none;word-break:break-all}
 .direct a:hover{text-decoration:underline;text-underline-offset:4px}
 @media (max-width:860px){.contact .wrap{grid-template-columns:1fr}}
@@ -339,7 +341,7 @@ footer a{color:inherit}
     </div>
     <div class="direct">
       <div><div class="k" data-i18n="c.email2">Email</div><a href="mailto:info@startgroup.space">info@startgroup.space</a></div>
-      <div><div class="k" data-i18n="c.wa">WhatsApp</div><a href="https://wa.me/380951455328" rel="noopener" target="_blank">+380 95 145 5328</a></div>
+      <div><div class="k" data-i18n="c.wa">WhatsApp</div><a class="btn wa" href="https://wa.me/380951455328" rel="noopener" target="_blank" data-i18n="c.wabtn">Message on WhatsApp</a></div>
       <div><div class="k" data-i18n="c.hours">Office hours</div><p data-i18n="c.hoursv">Hong Kong and Central European time. Messages outside office hours are answered the next morning.</p></div>
     </div>
   </div>
@@ -383,7 +385,7 @@ footer a{color:inherit}
     "reg.company":"Компанія","reg.inc":"Зареєстрована","reg.incv":"Гонконг, 14 березня 2016 року","reg.cert":"Номер сертифіката","reg.addr":"Юридична адреса","reg.view":"Переглянути сертифікат про реєстрацію","reg.close":"Закрити",
     "c.h2":"Розкажіть про ваше завдання.","c.lede":"Одного повідомлення достатньо, щоб почати. Відповідаємо протягом одного робочого дня.",
     "c.name":"Ім’я","c.email":"Email","c.company":"Компанія","c.msg":"Що вам потрібно?","c.consent":"Погоджуюсь, що мої дані використовуються лише для відповіді на цей запит.","c.send":"Надіслати",
-    "c.email2":"Email","c.wa":"WhatsApp","c.hours":"Години роботи","c.hoursv":"Гонконзький та центральноєвропейський час. На повідомлення поза робочими годинами відповідаємо наступного ранку.",
+    "c.email2":"Email","c.wa":"WhatsApp","c.wabtn":"Написати у WhatsApp","c.hours":"Години роботи","c.hoursv":"Гонконзький та центральноєвропейський час. На повідомлення поза робочими годинами відповідаємо наступного ранку.",
     "c.rc":"Захищено reCAPTCHA. Діють <a href=\"https://policies.google.com/privacy\" rel=\"noopener\" target=\"_blank\">Політика конфіденційності</a> та <a href=\"https://policies.google.com/terms\" rel=\"noopener\" target=\"_blank\">Умови</a> Google.",
     "f.privacy":"Ми збираємо лише те, що ви надсилаєте через форму, і використовуємо це лише для відповіді. За запитом видаляємо."
   };
@@ -413,7 +415,7 @@ footer a{color:inherit}
     "reg.company":"公司","reg.inc":"注册","reg.incv":"香港，2016年3月14日","reg.cert":"证书编号","reg.addr":"注册地址","reg.view":"查看公司注册证书","reg.close":"关闭",
     "c.h2":"告诉我们您的需求。","c.lede":"一条信息即可开始。我们在一个工作日内回复。",
     "c.name":"姓名","c.email":"电子邮箱","c.company":"公司","c.msg":"您需要什么？","c.consent":"我同意我的信息仅用于回复本次咨询。","c.send":"发送信息",
-    "c.email2":"电子邮箱","c.wa":"WhatsApp","c.hours":"工作时间","c.hoursv":"香港时间与中欧时间。非工作时间收到的信息将于次日上午回复。",
+    "c.email2":"电子邮箱","c.wa":"WhatsApp","c.wabtn":"通过 WhatsApp 联系","c.hours":"工作时间","c.hoursv":"香港时间与中欧时间。非工作时间收到的信息将于次日上午回复。",
     "c.rc":"受 reCAPTCHA 保护，适用 Google <a href=\"https://policies.google.com/privacy\" rel=\"noopener\" target=\"_blank\">隐私政策</a>和<a href=\"https://policies.google.com/terms\" rel=\"noopener\" target=\"_blank\">服务条款</a>。",
     "f.privacy":"我们只收集您通过表单提交的信息，且仅用于回复。应您要求即可删除。"
   };
