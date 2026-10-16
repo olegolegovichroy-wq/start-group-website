@@ -175,6 +175,8 @@ dialog button{background:var(--paper);border:0;border-radius:4px;padding:.4rem .
 .consent input{margin-top:.3rem}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .status{font-size:.95rem;min-height:1.4em}
+.grecaptcha-badge{visibility:hidden}
+.rc-note{font-size:.8rem;color:var(--steel)}.rc-note a{color:inherit}
 .status.ok{color:#1F6B3A}.status.err{color:var(--seal)}
 .direct{border-top:1.5px solid var(--ink);padding-top:1.2rem;display:grid;gap:1.2rem}
 .direct .k{font-size:.9rem;color:var(--steel)}
@@ -332,6 +334,7 @@ footer a{color:inherit}
         <label class="consent"><input type="checkbox" id="f-consent" required><span data-i18n="c.consent">I agree that my details are used only to answer this enquiry.</span></label>
         <div><button class="btn btn-seal" type="submit" id="f-submit" data-i18n="c.send">Send message</button></div>
         <p class="status" id="f-status" aria-live="polite"></p>
+        <p class="rc-note" data-i18n="c.rc">Protected by reCAPTCHA. Google <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" rel="noopener" target="_blank">Terms</a> apply.</p>
       </form>
     </div>
     <div class="direct">
@@ -381,6 +384,7 @@ footer a{color:inherit}
     "c.h2":"Розкажіть про ваше завдання.","c.lede":"Одного повідомлення достатньо, щоб почати. Відповідаємо протягом одного робочого дня.",
     "c.name":"Ім’я","c.email":"Email","c.company":"Компанія","c.msg":"Що вам потрібно?","c.consent":"Погоджуюсь, що мої дані використовуються лише для відповіді на цей запит.","c.send":"Надіслати",
     "c.email2":"Email","c.wa":"WhatsApp","c.hours":"Години роботи","c.hoursv":"Гонконзький та центральноєвропейський час. На повідомлення поза робочими годинами відповідаємо наступного ранку.",
+    "c.rc":"Захищено reCAPTCHA. Діють <a href=\"https://policies.google.com/privacy\" rel=\"noopener\" target=\"_blank\">Політика конфіденційності</a> та <a href=\"https://policies.google.com/terms\" rel=\"noopener\" target=\"_blank\">Умови</a> Google.",
     "f.privacy":"Ми збираємо лише те, що ви надсилаєте через форму, і використовуємо це лише для відповіді. За запитом видаляємо."
   };
   I18N.zh={
@@ -410,6 +414,7 @@ footer a{color:inherit}
     "c.h2":"告诉我们您的需求。","c.lede":"一条信息即可开始。我们在一个工作日内回复。",
     "c.name":"姓名","c.email":"电子邮箱","c.company":"公司","c.msg":"您需要什么？","c.consent":"我同意我的信息仅用于回复本次咨询。","c.send":"发送信息",
     "c.email2":"电子邮箱","c.wa":"WhatsApp","c.hours":"工作时间","c.hoursv":"香港时间与中欧时间。非工作时间收到的信息将于次日上午回复。",
+    "c.rc":"受 reCAPTCHA 保护，适用 Google <a href=\"https://policies.google.com/privacy\" rel=\"noopener\" target=\"_blank\">隐私政策</a>和<a href=\"https://policies.google.com/terms\" rel=\"noopener\" target=\"_blank\">服务条款</a>。",
     "f.privacy":"我们只收集您通过表单提交的信息，且仅用于回复。应您要求即可删除。"
   };
 
@@ -468,6 +473,17 @@ footer a{color:inherit}
     uk:{missing:'Будь ласка, заповніть ім’я, email і повідомлення.',sending:'Надсилаємо…',ok:'Дякуємо. Повідомлення надіслано; відповімо протягом одного робочого дня.',err:'Не вдалося надіслати повідомлення. Напишіть нам напряму: info@startgroup.space.'},
     zh:{missing:'请填写姓名、电子邮箱和信息。',sending:'发送中…',ok:'谢谢。信息已发送，我们将在一个工作日内回复。',err:'信息发送失败，请直接发送邮件至 info@startgroup.space。'}
   };
+  var RECAPTCHA_KEY="6LfktbwrAAAAAILm0rrSfDFU8mq5S1Mo_kgXmL-k",rcLoading=null;
+  function loadRecaptcha(){
+    if(window.grecaptcha)return Promise.resolve();
+    if(rcLoading)return rcLoading;
+    rcLoading=new Promise(function(res,rej){var s=document.createElement('script');s.src='https://www.google.com/recaptcha/api.js?render='+RECAPTCHA_KEY;s.async=true;s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+    return rcLoading;
+  }
+  function getToken(){
+    return loadRecaptcha().then(function(){return new Promise(function(res){grecaptcha.ready(function(){grecaptcha.execute(RECAPTCHA_KEY,{action:'submit'}).then(res,function(){res('');});});});}).catch(function(){return '';});
+  }
+  ['focusin','pointerdown'].forEach(function(ev){form.addEventListener(ev,function(){loadRecaptcha().catch(function(){});},{once:true});});
   function msg(k){var l=document.documentElement.lang.slice(0,2);return (MSG[l]&&MSG[l][k])||MSG.en[k];}
   form.addEventListener('submit',function(e){
     e.preventDefault();
@@ -475,7 +491,8 @@ footer a{color:inherit}
     if(!form.name.value.trim()||!form.email.value.trim()||!form.message.value.trim()||!form.querySelector('#f-consent').checked){st.className='status err';st.textContent=msg('missing');return;}
     st.className='status';st.textContent=msg('sending');btn.disabled=true;
     var fd=new FormData(form);fd.append('page_url',location.href);
-    fetch(FORM_ENDPOINT,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+    getToken().then(function(t){if(t)fd.append('g-recaptcha-response',t);
+    return fetch(FORM_ENDPOINT,{method:'POST',body:fd,headers:{'Accept':'application/json'}});})
       .then(function(r){if(!r.ok)throw new Error(r.status);st.className='status ok';st.textContent=msg('ok');form.reset();})
       .catch(function(){st.className='status err';st.textContent=msg('err');})
       .finally(function(){btn.disabled=false;});
