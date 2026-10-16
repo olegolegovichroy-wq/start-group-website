@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://startgroup.space/sitemap.xml
